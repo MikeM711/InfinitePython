@@ -35,3 +35,7 @@ x = [1, 2, 3, 4, 5] ; print(f'I am at line {line_numb()}')
 
 ------Notes------
 - A step of zero will cause an error
+
+------Future------
+1) generateRandomNumbers => generateRandomNumber
+2) inside "slice" do all problems in one Python shell (speed)

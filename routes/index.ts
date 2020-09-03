@@ -39,7 +39,7 @@ router.get('/api/problems/slice', async (req: express.Request, res: express.Resp
         const twoColons = generateChance(30);
 
         // should there be an extra slice?
-        const extraSlice = generateChance(5);
+        const extraSlice = generateChance(10);
 
         // Generate the type of collection
         // if both tuple and array are false, the default is a string
@@ -52,8 +52,8 @@ router.get('/api/problems/slice', async (req: express.Request, res: express.Resp
         // Generate the slice operands
         // problem uses both positive and negative index search or all negative operands
         // if none of the above, operands are positive
-        const misMatchOperands = generateChance(15);
-        const negativeOperands =
+        let misMatchOperands = generateChance(15);
+        let negativeOperands =
             !misMatchOperands && generateChance(15) === true ? true : false;
 
         const problemCollection = createCollection(
@@ -70,7 +70,23 @@ router.get('/api/problems/slice', async (req: express.Request, res: express.Resp
             negativeOperands
         );
 
-        const sliceProblem = problemCollection + problemSlice;
+        let sliceProblem = problemCollection + problemSlice;
+
+        if (extraSlice) {
+            misMatchOperands = generateChance(15);
+            negativeOperands =
+                !misMatchOperands && generateChance(15) === true ? true : false;
+            const wordLength = 3; // Generally, the word is small after the first slice
+            const secondProblemSlice = appendSlice(
+                wordLength,
+                generateChance(30),
+                generateChance(15),
+                misMatchOperands,
+                negativeOperands
+            );
+
+            sliceProblem += secondProblemSlice;
+        }
 
         console.log(sliceProblem);
         const pyExec = `print(${sliceProblem})`;

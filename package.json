@@ -1,0 +1,25 @@
+{
+  "name": "developer-training-mode",
+  "version": "1.0.0",
+  "description": "A Training Mode for Developers",
+  "main": "server.ts",
+  "scripts": {
+    "start": "ts-node-dev --respawn server.ts",
+    "dev": "nodemon --exec ts-node server.ts",
+    "build": "tsc"
+  },
+  "author": "Michael McCabe",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0-pre.61",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "@types/express": "github:types/express",
+    "express": "^4.17.1",
+    "python-shell": "^2.0.1",
+    "random-words": "^1.1.1"
+  }
+}

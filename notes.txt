@@ -1,0 +1,34 @@
+https://www.npmjs.com/package/python-shell
+https://www.npmjs.com/package/random-words
+
+------Valid strings you can send in------
+
+testString = 
+'\narr = [1,2,3,4,5]' + 
+'\nfor x in arr:' +
+'\n\tprint(x + 3)'
+
+
+------Get print statements------
+- use 2nd param, results, in the callback
+
+------Get all variables------
+COMPLETE
+
+------Get line number------
+
+import inspect
+
+def line_numb():
+   '''Returns the current line number in our program'''
+   return inspect.currentframe().f_back.f_lineno
+
+
+x = [1, 2, 3, 4, 5] ; print(f'I am at line {line_numb()}')
+
+------Where to put line numbers------
+- If at a function or loop (ends with colon), add it after that function/loop
+- If NOT at a function or loop, add a semicolon and that print statement
+
+------Function Return Values------
+- Create some hidden/private variable before the return, to signify the "return variable"

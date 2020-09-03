@@ -1,4 +1,4 @@
-import { generateChance, generateRandomNumbers } from '../utils/helperMethods';
+import { generateChance, generateRandomNumber } from '../utils/helperMethods';
 
 interface primitiveProblemProperties {
     problem: string | number;
@@ -11,17 +11,17 @@ const generateFloat = (): string => {
     let decimalDigit: number;
     if (generateChance(60)) {
         // 60% chance of a float between 0 and 10
-        intDigit = generateRandomNumbers(0, 10);
-        decimalDigit = generateRandomNumbers(0, 9);
+        intDigit = generateRandomNumber(0, 10);
+        decimalDigit = generateRandomNumber(0, 9);
         float = parseFloat(intDigit + '.' + decimalDigit).toFixed(1);
     } else if (generateChance(50)) {
         // 50% of a 60% chance of a number with 3 decimal places
-        intDigit = generateRandomNumbers(-10, 10);
-        decimalDigit = generateRandomNumbers(0, 999);
+        intDigit = generateRandomNumber(-10, 10);
+        decimalDigit = generateRandomNumber(0, 999);
         float = parseFloat(intDigit + '.' + decimalDigit).toFixed(3);
     } else {
-        intDigit = generateRandomNumbers(-1000, 1000);
-        decimalDigit = generateRandomNumbers(0, 1000);
+        intDigit = generateRandomNumber(-1000, 1000);
+        decimalDigit = generateRandomNumber(0, 1000);
         float = parseFloat(intDigit + '.' + decimalDigit).toFixed(3);
     }
     return float;
@@ -31,13 +31,13 @@ const generateInt = (): number => {
     let int: number;
     if (generateChance(60)) {
         // 60% chance of a number between 0 and 10
-        int = generateRandomNumbers(0, 10);
+        int = generateRandomNumber(0, 10);
     } else if (generateChance(75)) {
         // a 75% chance of a 40% chance the number is negative
-        int = generateRandomNumbers(-10, -1);
+        int = generateRandomNumber(-10, -1);
     } else {
         // have a possibility of generating a large number
-        int = generateRandomNumbers(-10000, 10000);
+        int = generateRandomNumber(-10000, 10000);
     }
     return int;
 };
@@ -61,8 +61,7 @@ const generatePrimitiveProblemSet = () => {
     let primitiveProblems: primitiveProblemProperties[] = [];
 
     for (let i = 0; i < 10; i++) {
-        // const randomNum = generateRandomNumbers(1, 100);
-        const randomNum = generateRandomNumbers(1, 100);
+        const randomNum = generateRandomNumber(1, 100);
 
         if (randomNum <= 20) {
             // int
@@ -81,7 +80,7 @@ const generatePrimitiveProblemSet = () => {
         } else if (randomNum <= 60) {
             // char
             const randChar =
-                charList[generateRandomNumbers(0, charList.length - 1)];
+                charList[generateRandomNumber(0, charList.length - 1)];
             primitiveProblems.push({
                 problem: randChar,
                 solution: 'Char'
@@ -89,7 +88,7 @@ const generatePrimitiveProblemSet = () => {
         } else if (randomNum <= 80) {
             // bool
             const randBool =
-                boolList[generateRandomNumbers(0, boolList.length - 1)];
+                boolList[generateRandomNumber(0, boolList.length - 1)];
             primitiveProblems.push({
                 problem: randBool,
                 solution: 'Boolean'

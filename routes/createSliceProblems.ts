@@ -1,7 +1,9 @@
-import { generateChance, generateRandomNumbers } from '../utils/helperMethods';
-import { pyShell } from '../utils/pyShell';
 import randomWords from 'random-words';
 import res from 'express/lib/response';
+
+import { generateChance, generateRandomNumber } from '../utils/helperMethods';
+import { pyShell } from '../utils/pyShell';
+import { generatePyList, generatePyTuple, generatePyString } from '../utils/generateCollection';
 
 interface slicingProblemProperties {
     problem: string;
@@ -10,23 +12,22 @@ interface slicingProblemProperties {
 
 const createCollection = (
     tupleCollection: boolean,
-    arrayCollection: boolean,
+    listCollection: boolean,
     word: string
 ): string => {
     // create appropriate collection
-    let problemCollection: string = word;
+    let problemCollection: string;
 
     if (tupleCollection === true) {
         // create a Python tuple
-        problemCollection = word.split('').join('", "');
-        problemCollection = '("' + problemCollection + '")';
-    } else if (arrayCollection === true) {
-        // create a Python array
-        problemCollection = word.split('').join('", "');
-        problemCollection = '["' + problemCollection + '"]';
+        problemCollection = generatePyTuple(word);
+        
+    } else if (listCollection === true) {
+        // create a Python list
+        problemCollection = generatePyList(word);
     } else {
         // a simple Python string
-        problemCollection = '"' + problemCollection + '"';
+        problemCollection = generatePyString(word);
     }
 
     return problemCollection;
@@ -43,14 +44,14 @@ const appendSlice = (
 
     // generate 2 random numbers from 0 to length of word
     // where the length index will actually be an empty slice operand
-    const randOp1 = generateRandomNumbers(0, length);
-    let randOp2 = generateRandomNumbers(0, length);
+    const randOp1 = generateRandomNumber(0, length);
+    let randOp2 = generateRandomNumber(0, length);
 
     if (randOp1 === randOp2 && generateChance(50)) {
         // operands that equal each other happen a lot
         // 50% of the time, we will swap an operand with a different one
         while (randOp1 === randOp2) {
-            randOp2 = generateRandomNumbers(0, length);
+            randOp2 = generateRandomNumber(0, length);
         }
     }
 
@@ -117,7 +118,7 @@ const appendSlice = (
         return `[${min}:${max}]`;
     } else {
         // two colons is true - create a random step
-        let step = generateRandomNumbers(0, length);
+        let step = generateRandomNumber(0, length);
 
         // put a bit of emphasis on step of 0 (error)
         const step_0 = generateChance(5);
@@ -189,10 +190,18 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
     let slicingProblems: slicingProblemProperties[] = [];
 
     // Create 2 words and put them together for one word
+
+    // random chance there is a number in the word separator
+    let separator = ''
+
+    if (generateChance(50)) {
+        separator = String(generateRandomNumber(0,99));
+    }
+
     const problemWord: string[] = randomWords({
         exactly: 1,
         wordsPerString: 2,
-        separator: ''
+        separator: separator
     });
 
     const problemList: string[] = [];
@@ -209,9 +218,9 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
         const extraSlice = generateChance(10);
 
         // Generate the type of collection
-        // if both tuple and array are false, the default is a string
+        // if both tuple and list are false, the default is a string
         const tupleCollection = generateChance(15);
-        const arrayCollection = generateChance(15);
+        const listCollection = generateChance(15);
 
         // problem results in an empty string (swapped operands)
         // or operands outside of the string index
@@ -226,7 +235,7 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
 
         const problemCollection = createCollection(
             tupleCollection,
-            arrayCollection,
+            listCollection,
             word
         );
 

@@ -1,4 +1,4 @@
-const generateRandomNumbers = (min: number, max: number): number => {
+const generateRandomNumber = (min: number, max: number): number => {
     /*
       Will generate numbers between start and end INCLUSIVE
       Example:
@@ -18,11 +18,11 @@ const generateChance = (percentChance: number): boolean => {
     // decrement percent chance by 1 - we are indexing by 0
     percentChance -= 1;
 
-    const randomNum = generateRandomNumbers(0, 100);
+    const randomNum = generateRandomNumber(0, 100);
 
     // Probability is true when the number of percent is equal or less than
     // the random number generated
     return percentChance >= randomNum;
 };
 
-export { generateRandomNumbers, generateChance };
+export { generateRandomNumber, generateChance };

@@ -1,10 +1,11 @@
 import { generateChance, generateRandomNumbers } from '../utils/helperMethods';
 import { pyShell } from '../utils/pyShell';
 import randomWords from 'random-words';
+import res from 'express/lib/response';
 
 interface slicingProblemProperties {
     problem: string;
-    solution: string[] | null;
+    solution: string;
 }
 
 const createCollection = (
@@ -118,6 +119,9 @@ const appendSlice = (
         // two colons is true - create a random step
         let step = generateRandomNumbers(0, length);
 
+        // put a bit of emphasis on step of 0 (error)
+        const step_0 = generateChance(5);
+
         // put emphasis on step of 2
         const step_2 = generateChance(70);
 
@@ -128,13 +132,17 @@ const appendSlice = (
         const bad_step = generateChance(10);
         // console.log("bad_step", bad_step)
 
+        // ValueError slice step cannot be zero
+        // Drilling home that 0 cannot be a step
+        step = step_0 ? 0: step;
+
         // if ste_2 is true, supply the step of 2
         // If step_2 is false, keep the random step;
-        step = step_2 ? 2 : step;
+        step = !step_0 && step_2 ? 2 : step;
 
         // if step_3 is true, supply the step of 3
         // If step_3 is false, keep the random step;
-        step = !step_2 && step_3 ? 3 : step;
+        step = step_0 && !step_2 && step_3 ? 3 : step;
 
         // create positive scaled slice operands to find out where the bad
         // step will be if the chance occurs
@@ -177,8 +185,7 @@ const appendSlice = (
     }
 };
 
-const generateSliceProblemSet = async(): Promise<slicingProblemProperties[]> => {
-
+const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> => {
     let slicingProblems: slicingProblemProperties[] = [];
 
     // Create 2 words and put them together for one word
@@ -187,6 +194,8 @@ const generateSliceProblemSet = async(): Promise<slicingProblemProperties[]> => 
         wordsPerString: 2,
         separator: ''
     });
+
+    const problemList: string[] = [];
 
     // make 10 problems for one word
     const word = problemWord[0];
@@ -204,7 +213,8 @@ const generateSliceProblemSet = async(): Promise<slicingProblemProperties[]> => 
         const tupleCollection = generateChance(15);
         const arrayCollection = generateChance(15);
 
-        // problem results in an empty string or operands outside of the string index
+        // problem results in an empty string (swapped operands)
+        // or operands outside of the string index
         const outOfBoundsSlice = generateChance(15);
 
         // Generate the slice operands
@@ -245,25 +255,48 @@ const generateSliceProblemSet = async(): Promise<slicingProblemProperties[]> => 
 
             sliceProblem += secondProblemSlice;
         }
-
+        // push the problem to problemList;
         console.log(sliceProblem);
-        const pyExec = `print(${sliceProblem})`;
-        let result: string[] | null;
-        try {
-            // do not let a step of 0 enter the Python Shell (generates an error)
-            result = await pyShell(pyExec);
-        } catch (err) {
-            result = ['ValueError: slice step cannot be zero'];
-        }
-
-        // Add this slicing example to the slicingExample array
-        slicingProblems.push({
-            problem: sliceProblem,
-            solution: result
-        });
+        problemList.push(sliceProblem);
     }
 
+    // iterate through problems list into Python format
+    // All slices will be wrapped in try
+    let pyExec: string = '';
+    for (const sliceProblem of problemList) {
+        // create a try/except for the sliceProblem
+        // and print all results
+        pyExec +=
+            'try:' +
+            `\n\tprint(${sliceProblem})` +
+            '\nexcept Exception as err:' +
+            '\n\tprint(type(err).__name__, err)\n';
+    }
+
+    let solutionList: string[] | null;
+    try {
+        // do not let a step of 0 enter the Python Shell (generates an error)
+        solutionList = await pyShell(pyExec);
+    } catch (err) {
+        // we should not be catching any errors...
+        solutionList = [];
+        res.json({ Error: err });
+    }
+
+    if (solutionList) {
+        // if there are results, we will iterate through them
+
+        // loop through all results and append them to the slicingProblems array
+        for (let i = 0; i < solutionList.length; i++) {
+            slicingProblems.push({
+                problem: problemList[i],
+                solution: solutionList[i]
+            });
+        }
+    }
+
+    console.log('final result: ', solutionList);
     return slicingProblems;
-}
+};
 
 export { generateSliceProblemSet };

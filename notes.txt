@@ -32,3 +32,6 @@ x = [1, 2, 3, 4, 5] ; print(f'I am at line {line_numb()}')
 
 ------Function Return Values------
 - Create some hidden/private variable before the return, to signify the "return variable"
+
+------Notes------
+- A step of zero will cause an error

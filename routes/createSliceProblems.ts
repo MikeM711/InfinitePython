@@ -21,7 +21,6 @@ const createCollection = (
     if (tupleCollection === true) {
         // create a Python tuple
         problemCollection = generatePyTuple(word);
-        
     } else if (listCollection === true) {
         // create a Python list
         problemCollection = generatePyList(word);
@@ -192,10 +191,10 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
     // Create 2 words and put them together for one word
 
     // random chance there is a number in the word separator
-    let separator = ''
+    let separator = '';
 
     if (generateChance(50)) {
-        separator = String(generateRandomNumber(0,99));
+        separator = String(generateRandomNumber(0, 99));
     }
 
     const problemWord: string[] = randomWords({

@@ -23,9 +23,9 @@ router.get('/api/problems/primitives', async (req: express.Request, res: express
     Route generates primitive problems
     Problems can be integer, float, character, boolean or complex primitive type
     */
-    
+
     const primitiveProblems = generatePrimitiveProblemSet();
-    res.json({problems: primitiveProblems})
+    res.json({ problems: primitiveProblems });
 });
 
 router.get('/api/problems/collections', async (req: express.Request, res: express.Response) => {
@@ -39,9 +39,9 @@ router.get('/api/problems/collections', async (req: express.Request, res: expres
     //    x_tuple = (1, 2, 2, 3)
     //    x_set = {1, 2, 2, 3} # note duplicates
     //    x_dict = {1: 'NY', 2: 'LA'}
-    
+
     const primitiveProblems = generatePrimitiveProblemSet();
-    res.json({problems: primitiveProblems})
+    res.json({ problems: primitiveProblems });
 });
 
 /*

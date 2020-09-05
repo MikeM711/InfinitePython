@@ -55,7 +55,6 @@ var generatePrimitiveProblemSet = function () {
     var boolList = ['True', 'False'];
     var primitiveProblems = [];
     for (var i = 0; i < 10; i++) {
-        // const randomNum = generateRandomNumber(1, 100);
         var randomNum = helperMethods_1.generateRandomNumber(1, 100);
         if (randomNum <= 20) {
             // int

@@ -1,6 +1,6 @@
-import express from 'express';
+import express, { Application } from 'express';
 
-const app = express();
+const app: Application = express();
 
 // Routing
 import routes from './routes';

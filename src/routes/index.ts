@@ -1,11 +1,11 @@
-import express from 'express';
+import express, {Request, Response, Router} from 'express';
 import { pyShell } from '../utils/pyShell';
 import { generateSliceProblemSet } from './createSliceProblems';
 import { generatePrimitiveProblemSet } from './createPrimitiveProblems';
 
-const router = express.Router();
+const router: Router = express.Router();
 
-router.get('/api/problems/slice', async (req: express.Request, res: express.Response) => {
+router.get('/api/problems/slice', async (req: Request, res: Response) => {
     /*
     Route generates slice problems
 
@@ -18,7 +18,7 @@ router.get('/api/problems/slice', async (req: express.Request, res: express.Resp
     res.json({ problems: slicingProblems });
 });
 
-router.get('/api/problems/primitives', async (req: express.Request, res: express.Response) => {
+router.get('/api/problems/primitives', async (req: Request, res: Response) => {
     /*
     Route generates primitive problems
     Problems can be integer, float, character, boolean or complex primitive type

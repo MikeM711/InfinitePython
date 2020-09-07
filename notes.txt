@@ -39,3 +39,8 @@ x = [1, 2, 3, 4, 5] ; print(f'I am at line {line_numb()}')
 ------Future------
 1) generateRandomNumbers => generateRandomNumber
 2) inside "slice" do all problems in one Python shell (speed)
+
+kill servers on 3000:
+killall -9 node
+
+Concurrently must be a devDependency

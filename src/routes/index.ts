@@ -5,7 +5,7 @@ import { generatePrimitiveProblemSet } from './createPrimitiveProblems';
 
 const router: Router = express.Router();
 
-router.get('/api/problems/slice', async (req: Request, res: Response) => {
+router.get('/problems/slice', async (req: Request, res: Response) => {
     /*
     Route generates slice problems
 
@@ -18,7 +18,7 @@ router.get('/api/problems/slice', async (req: Request, res: Response) => {
     res.json({ problems: slicingProblems });
 });
 
-router.get('/api/problems/primitives', async (req: Request, res: Response) => {
+router.get('/problems/primitives', async (req: Request, res: Response) => {
     /*
     Route generates primitive problems
     Problems can be integer, float, character, boolean or complex primitive type
@@ -28,7 +28,7 @@ router.get('/api/problems/primitives', async (req: Request, res: Response) => {
     res.json({ problems: primitiveProblems });
 });
 
-router.get('/api/problems/collections', async (req: express.Request, res: express.Response) => {
+router.get('/problems/collections', async (req: express.Request, res: express.Response) => {
     /*
     Route generates primitive problems
     Problems can be a string, list, tuple, set or dict type

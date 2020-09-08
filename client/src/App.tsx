@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import {UnControlled as CodeMirror} from 'react-codemirror2'
 import axios from 'axios';
 import './App.css';
+// The following two imports is for the theme.
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
+
+// This import is for the language syntax highlighting.
+// import 'codemirror/mode/javascript/javascript.js';
 
 interface problemType {
     problem: string;
@@ -54,26 +61,36 @@ const App: React.FC = () => {
         }
     };
 
-    const handleChange = (e: any) => {
-        const userInput:string = e.currentTarget.textContent;
-        const inputId = Number(e.currentTarget.id);
-        let newSolnInput = [...solutionInput];
-        newSolnInput[inputId] = userInput;
-        setSolutionInput(newSolnInput);
-    };
-
     const problemListJSX = problemList !== undefined
         ? problemList.problems.map(({ problem, solution, id }) => {
                 return (
                     <div className={`slice-problem-${id}`} key={id}>
                         <p className="question-problem">Problem #{id + 1}: {problem}</p>
                         {/* <p>Solution: {String(solution)}</p> */}
-                        <div
-                            className={`solution-input ${id}`}
-                            contentEditable="true"
-                            id={`${id}`}
-                            onInput={handleChange}
-                        ></div>
+                        <div className="one-line-code-editor">
+                            <CodeMirror
+                                value=''
+                                options={{
+                                    mode: 'xml',
+                                    theme: 'material',
+                                    lineNumbers: true,
+                                    noNewLines: true
+                                }}
+                                onBeforeChange={(editor, data, value, next) => {
+                                    if(data.text.length !== 1) {
+                                        // turn all newlines into nothing
+                                        // this data.text will be sent to onChange
+                                        data.text = [''];
+                                    }
+                                    next();
+                                }}
+                                onChange={(editor, data, value) => {
+                                    let newSolnInput = [...solutionInput];
+                                    newSolnInput[id] = value;
+                                    setSolutionInput(newSolnInput);
+                                }}
+                            />
+                        </div>
                         <a
                             className="problem-submission waves-effect waves-light btn"
                             onClick={handleSubmit}

@@ -16,3 +16,8 @@ a.problem-submission {
 p.question-problem {
     font-size: 25px;
 }
+
+div.one-line-code-editor .CodeMirror{
+    height: 60px !important;
+    font-size: 30px;
+}

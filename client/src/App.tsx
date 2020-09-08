@@ -65,7 +65,9 @@ const App: React.FC = () => {
         ? problemList.problems.map(({ problem, solution, id }) => {
                 return (
                     <div className={`slice-problem-${id}`} key={id}>
-                        <p className="question-problem">Problem #{id + 1}: {problem}</p>
+                        <p className="question-problem"><b>Problem #{id + 1}: </b> 
+                        <span className="problem-text">{problem}</span>
+                        </p>
                         {/* <p>Solution: {String(solution)}</p> */}
                         <div className="one-line-code-editor">
                             <CodeMirror
@@ -73,8 +75,7 @@ const App: React.FC = () => {
                                 options={{
                                     mode: 'xml',
                                     theme: 'material',
-                                    lineNumbers: true,
-                                    noNewLines: true
+                                    lineNumbers: false,
                                 }}
                                 onBeforeChange={(editor, data, value, next) => {
                                     if(data.text.length !== 1) {
@@ -104,7 +105,7 @@ const App: React.FC = () => {
         : null;
     return (
         <div className="container problem-container">
-            <h1 className="center">Python Problems</h1>
+            <h1 className="center">Python Slice Problems</h1>
             {problemListJSX}
         </div>
     );

@@ -18,6 +18,12 @@ p.question-problem {
 }
 
 div.one-line-code-editor .CodeMirror{
-    height: 60px !important;
+    height: 80px !important;
     font-size: 30px;
+    padding-top: 10px;
+}
+
+span.problem-text {
+    font-family: 'monospace';
+    letter-spacing: 0.1em;
 }

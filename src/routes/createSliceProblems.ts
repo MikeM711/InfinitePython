@@ -8,6 +8,7 @@ import { generatePyList, generatePyTuple, generatePyString } from '../utils/gene
 interface slicingProblemProperties {
     problem: string;
     solution: string;
+    id: number
 }
 
 const createCollection = (
@@ -296,14 +297,37 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
 
         // loop through all results and append them to the slicingProblems array
         for (let i = 0; i < solutionList.length; i++) {
+            let soln: string;
+            if (solutionList[i][0] == '(' || solutionList[i][0] == '[') {
+                // The first element shows that the solution is a tuple or array
+                // keep the solution
+                soln = solutionList[i];
+            } else {
+                // Otherwise the slice is a string, where we tack on single quotes
+                // for the solution
+                soln = '"' + solutionList[i] + '"';
+            }
+
+            // Stay consistent - we will have our answers in double quotes
+            // not single quotes
+            while (soln.indexOf("'") !== -1) {
+                soln = soln.replace("'", '"');
+            }
+
+            // remove all whitespace from solution
+            while (soln.indexOf(' ') !== -1) {
+                soln = soln.replace(' ', '');
+            }
+
             slicingProblems.push({
                 problem: problemList[i],
-                solution: solutionList[i]
+                solution: soln,
+                id: i
             });
         }
     }
 
-    console.log('final result: ', solutionList);
+    // console.log('final result: ', solutionList);
     return slicingProblems;
 };
 

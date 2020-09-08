@@ -44,3 +44,11 @@ kill servers on 3000:
 killall -9 node
 
 Concurrently must be a devDependency
+
+Future:
+
+Idea #1:
+Have slicing problems, primitive problems, and other similar problems funnel into ONE component
+
+Idea #2:
+Have options to toggle the RNG of the problems

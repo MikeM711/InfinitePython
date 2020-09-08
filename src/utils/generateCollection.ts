@@ -13,31 +13,36 @@ const stringToRandomArr = (stringSeq: string): string[] => {
     return stringArr;
 };
 
-const generatePyList = (stringSeq: string): string => {
+const generatePyList = (stringSeq: string): { pyList: string, length: number } => {
     /*
     Generates a Python List of items from 1-3 characters long
     */
     const randStringArr = stringToRandomArr(stringSeq);
+    const length = randStringArr.length;
     let pyList = randStringArr.join('", "');
     pyList = '["' + pyList + '"]';
-    return pyList;
+    return {pyList, length};
 };
 
-const generatePyTuple = (stringSeq: string): string => {
+const generatePyTuple = (stringSeq: string): { pyTuple: string, length: number } => {
     /*
     Generates a Python Tuple of items from 1-3 characters long
     */
     const randStringArr = stringToRandomArr(stringSeq);
+    const length = randStringArr.length;
     let pyTuple = randStringArr.join('", "');
     pyTuple = '("' + pyTuple + '")';
-    return pyTuple;
+    return {pyTuple, length};
 };
 
-const generatePyString = (stringSeq: string): string => {
+const generatePyString = (stringSeq: string): { pyStr: string, length: number } => {
     /*
     Generates a Python String
     */
-    return '"' + stringSeq + '"';
+   
+    const length = stringSeq.length;
+    const pyStr = '"' + stringSeq + '"';
+    return { pyStr, length };
 };
 
 const generatePySetHelper = (stringSeq: string): string[] => {

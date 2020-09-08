@@ -15,22 +15,30 @@ const createCollection = (
     tupleCollection: boolean,
     listCollection: boolean,
     word: string
-): string => {
+): { problemCollection: string; size: number } => {
     // create appropriate collection
     let problemCollection: string;
+    let size: number;
 
     if (tupleCollection === true) {
         // create a Python tuple
-        problemCollection = generatePyTuple(word);
+        let { pyTuple, length } = generatePyTuple(word);
+        problemCollection = pyTuple;
+        size = length;
     } else if (listCollection === true) {
         // create a Python list
-        problemCollection = generatePyList(word);
+        let { pyList, length } = generatePyList(word);
+        problemCollection = pyList;
+        size = length;
     } else {
         // a simple Python string
-        problemCollection = generatePyString(word);
+        let { pyStr, length } = generatePyString(word);
+        problemCollection = pyStr;
+        size = length;
     }
 
-    return problemCollection;
+    // return number of items too
+    return { problemCollection, size };
 };
 
 const appendSlice = (
@@ -101,7 +109,7 @@ const appendSlice = (
                 min = generateChance(20) ? min * length : min;
             } else {
                 min *= length;
-                max = generateChance(20) ? max * length : max
+                max = generateChance(20) ? max * length : max;
             }
         }
     }
@@ -135,7 +143,7 @@ const appendSlice = (
 
         // ValueError slice step cannot be zero
         // Drilling home that 0 cannot be a step
-        step = step_0 ? 0: step;
+        step = step_0 ? 0 : step;
 
         // if ste_2 is true, supply the step of 2
         // If step_2 is false, keep the random step;
@@ -233,14 +241,14 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
         let negativeOperands =
             !misMatchOperands && generateChance(15) === true ? true : false;
 
-        const problemCollection = createCollection(
+        const {problemCollection, size } = createCollection(
             tupleCollection,
             listCollection,
             word
         );
 
         const problemSlice = appendSlice(
-            word.length,
+            size,
             twoColons,
             outOfBoundsSlice,
             misMatchOperands,

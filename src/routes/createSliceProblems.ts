@@ -322,9 +322,11 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
                 soln = soln.replace("'", '"');
             }
 
-            // remove all whitespace from solution
-            while (soln.indexOf(' ') !== -1) {
-                soln = soln.replace(' ', '');
+            // remove all whitespace from solution if the slice problem has no errors
+            if(soln.indexOf("ValueError") === -1){
+                while (soln.indexOf(' ') !== -1) {
+                    soln = soln.replace(' ', '');
+                }
             }
 
             slicingProblems.push({
@@ -335,7 +337,6 @@ const generateSliceProblemSet = async (): Promise<slicingProblemProperties[]> =>
         }
     }
 
-    // console.log('final result: ', solutionList);
     return slicingProblems;
 };
 

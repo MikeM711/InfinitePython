@@ -6,11 +6,16 @@ div.solution-input {
 }
 
 div.problem-container {
-    padding-bottom: 50px
+    padding-bottom: 100px
 }
 
 a.problem-submission {
     margin-top: 10px
+}
+
+a.view-solution {
+    margin-top: 10px;
+    float: right;
 }
 
 p.question-problem {
@@ -26,4 +31,39 @@ div.one-line-code-editor .CodeMirror{
 span.problem-text {
     font-family: 'monospace';
     letter-spacing: 0.1em;
+}
+
+div.display-message {
+    padding-top: 10px;
+    font-size: 25px;
+}
+
+div.fixed {
+    background: white;
+    position: fixed;
+    width: 100%;
+    padding-left: 10px;
+    bottom: 0px;
+    z-index: 1;
+    padding-bottom: 5px;
+    font-size: 30px;
+    -webkit-box-shadow: 5px 3px 5px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow:    5px 3px 5px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+    box-shadow:         5px 3px 5px 2px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+div.correct-answer {
+    color:green;
+}
+
+div.incorrect-answer {
+    color: red;
+}
+
+div.view-solution {
+    color:grey;
 }

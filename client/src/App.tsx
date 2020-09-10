@@ -118,8 +118,6 @@ const App: React.FC = () => {
     };
 
     const handleViewSolution = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        // set the score to 0 - you aren't allowed any help
-        setUseScore(0);
 
         // Get question ID
         const questionId = Number(e.currentTarget.id);
@@ -129,10 +127,15 @@ const App: React.FC = () => {
             let solution = problemList.problems[questionId].solution;
             let solutionsToShow = [...showSolution];
 
+            // if the solution has not been shown before, set the score to 0
+            if (solutionsToShow[questionId] === "") {
+                // set the score to 0 - you aren't allowed any help
+                setUseScore(0);
+            }
+
             // if the solution is an error, show that we can take "Error" or "ValueError"
             console.log('solution', solution);
             if (solution === '"ValueError slice step cannot be zero"') {
-                console.log('hit');
                 solution += ' - Error or ValueError are the accepted answers';
             }
             solutionsToShow[questionId] = solution;
